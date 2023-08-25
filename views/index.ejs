@@ -5,21 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReposHub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+<style>
+    .reposlist2, .login2, .rules2 {
+            display: none ;
+        }
+    @media screen and (max-width: 1825px) {
+        .navbar {
+            width: 50%;
+        }
+        .gradient-box {
+            width: 33%;
+        }
+        .repo-example {
+            width: 25%;
+            height: 25%;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .navbar {
+            width: 100%;
+        }
+        .gradient-box {
+            width: 80%;
+            height: 35%;
+        }
+        .repo-example {
+            width: 80%;
+            height: 30%;
+        }
+        .footer {
+            width: 100%;
+        }
+        .reposlist, .login, .rules {
+            display: none;
+        }
+        .reposlist2, .login2, .rules2 {
+            display: block;
+        }
+    }
+</style>
 <body class="w-screen h-screen bg-gray-800">
-    <div class="flex justify-center">
-        <div class="w-1/2 h-24 rounded-3xl bg-gray-700 mt-5 items-center justify-between flex">
-            <h1 class="font-mono text-2xl font-bold text-white ml-5">ReposHub</h1>
-            <form action="/addrepo">
-                <button type="submit" class="font-mono w-36 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-150">Add Your Repo</button>
-            </form>
+    <div class="flex justify-between w-screen h-screen flex-col items-center">
+        <div class="navbar w-1/4 h-24 rounded-3xl bg-gray-700 mt-5 flex flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold text-white ml-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;">ReposHub</h1>
             <form action="/">
-                <button type="submit" class="font-mono w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-150">Repos</button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-list"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist w-36 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  ">Repos List</button>
+            </form>
+            <form action="/login">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login w-48 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300"><i class="fa-brands fa-github"></i>&nbsp;Login with GitHub</button>
             </form>
             <form action="/rules">
-                <button type="submit" class="font-mono w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-150 mr-5">Rules</button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="rules2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-book"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="rules w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300 mr-5">Rules</button>
             </form>
         </div>
+    <div class="gradient-box w-1/5 h-1/5 mt-5 bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 rounded-2xl flex flex-col text-center 3xl:w-1/5 2xl:h-48">
+        <h1 style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="text-xl font-bold text-white mt-5">Looking for place to share your repo?</h1>
+        <p style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="text-white mt-5 ml-3 mr-3">Welcome to ReposHub. You can add your repo to repos list, or you can browse other repositories. Firstly you have to login with your GitHub account, then send request with your repository and wait. You can see example how it will look below.</p>
     </div>
+    <div class="repo-example w-1/5 h-48 mt-5 bg-gray-700 rounded-2xl flex flex-col">
+        <div class="flex flex-row mt-5 ml-5 justify-between">
+            <h1 class="text-2xl font-bold text-white" style="font-family: 'M PLUS Rounded 1c', sans-serif;">DaneeCloud</h1>
+            <p class="text-xl text-gray-400"><i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;8&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;0&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;3&nbsp;</p>
+        </div>
+        <div class="flex mt-5 ml-5 justify-between w-3/4">
+            <p class="text-lg text-gray-400" style="font-family: 'M PLUS Rounded 1c', sans-serif;">Multi-user file storage and sharing application made via NodeJS and EJS. Works with MongoDB.</p>
+        </div>
+        <div class="flex mt-5 ml-5 text-gray-400 text-xl flex-row">
+            <a class="hover:text-gray-300 duration-300" href="https://github.com/DaneeSkripter/DaneeCloud"><i class="fa-brands fa-github"></i>&nbsp;GitHub</a>&nbsp;&nbsp;
+            <a class="hover:text-gray-300 duration-300" href="https://docs.daneeskripter.dev/daneecloud"><i class="fa-solid fa-book"></i>&nbsp;Docs</a>&nbsp;&nbsp;
+            <a class="hover:text-gray-300 duration-300" href="https://cloud.daneeskripter.dev"><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Website</a>
+        </div>
+    </div>
+    <div class="footer w-1/2 h-12 rounded-3xl bg-gray-700 mb-5 flex justify-center items-center">
+        <p style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="text-gray-300">ReposHub ©️ 2023 | (We don't own any of the repositories on the list)</p>
+    </div>
+</div>
 </body>
 </html>
