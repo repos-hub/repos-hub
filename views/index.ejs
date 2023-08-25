@@ -55,23 +55,44 @@
             <h1 class="text-2xl font-bold text-white ml-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;">ReposHub</h1>
             <form action="/">
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-list"></i></button>
-                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist w-36 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  ">Repos List</button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  ">Repos List</button>
             </form>
+            <% if (!isAuthenticated) { %>
             <form action="/login">
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login w-48 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300"><i class="fa-brands fa-github"></i>&nbsp;Login with GitHub</button>
             </form>
+            <% } else { %>
+            <form action="/request">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Add repo</button>
+            </form>
+            <form action="/yourrepos">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Your repos</button>
+            </form>
+            <form action="/logout" method="post">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Log out</button>
+            </form>
+            <% } %>
             <form action="/rules">
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="rules2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-book"></i></button>
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="rules w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300 mr-5">Rules</button>
             </form>
         </div>
+    <% if (isAuthenticated) { %>
+    <div class="w-1/5 h-24 bg-gray-700 rounded-2xl flex items-center">
+        <img src=<%= user.avatar_url %> class="w-12 h-12 rounded-full ml-5">
+        <h1 class="text-lg font-bold text-white ml-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;" >Welcome, <%= user.login %></h1>
+    </div>
+    <% } %>
     <div class="gradient-box w-1/5 h-1/5 mt-5 bg-gradient-to-r from-blue-500 via-violet-500 to-pink-500 rounded-2xl flex flex-col text-center 3xl:w-1/5 2xl:h-48">
         <h1 style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="text-xl font-bold text-white mt-5">Looking for place to share your repo?</h1>
         <p style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="text-white mt-5 ml-3 mr-3">Welcome to ReposHub. You can add your repo to repos list, or you can browse other repositories. Firstly you have to login with your GitHub account, then send request with your repository and wait. You can see example how it will look below.</p>
     </div>
     <div class="repo-example w-1/5 h-48 mt-5 bg-gray-700 rounded-2xl flex flex-col">
-        <div class="flex flex-row mt-5 ml-5 justify-between">
+        <div class="flex flex-row mt-5 ml-5 justify-between mr-5">
             <h1 class="text-2xl font-bold text-white" style="font-family: 'M PLUS Rounded 1c', sans-serif;">DaneeCloud</h1>
             <p class="text-xl text-gray-400"><i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;8&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;0&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;3&nbsp;</p>
         </div>
