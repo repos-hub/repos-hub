@@ -1,1 +1,3 @@
 # repos-hub
+- Work in progress...
+- Check the ReposHub Roadmap
