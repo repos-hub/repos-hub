@@ -6,10 +6,20 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const session = require('cookie-session');
 const { checkAuth, checkNotAuth} = require("./handlers/authChecks");
+const RateLimit = require("express-rate-limit");
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
   }
+
+// RATE LIMITER
+
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 15
+})
+
+app.use(limiter)
 
 // DATABASE
 mongoose.connect(process.env.MONGO_SRV, {
