@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReposHub | Rules</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<style>
+    .reposlist2, .login2, .rules2 {
+            display: none ;
+        }
+    @media screen and (max-width: 1825px) {
+        .navbar {
+            width: 50%;
+        }
+    }
+    @media screen and (max-width: 768px) {
+        .navbar {
+            width: 100%;
+        }
+        .footer {
+            width: 100%;
+        }
+        .reposlist, .login, .rules {
+            display: none;
+        }
+        .reposlist2, .login2, .rules2 {
+            display: block;
+        }
+    }
+</style>
+<body class="w-screen h-screen bg-gray-800">
+    <div class="flex justify-between w-screen h-screen flex-col items-center">
+        <div class="navbar w-1/4 h-24 rounded-3xl bg-gray-700 mt-5 flex flex-row justify-between items-center">
+            <h1 class="text-2xl font-bold text-white ml-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;">ReposHub</h1>
+            <form action="/">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-list"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  ">Repos List</button>
+            </form>
+            <% if (!isAuthenticated) { %>
+            <form action="/login">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login w-48 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300"><i class="fa-brands fa-github"></i>&nbsp;Login with GitHub</button>
+            </form>
+            <% } else { %>
+            <form action="/request">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Add repo</button>
+            </form>
+            <form action="/yourrepos">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Your repos</button>
+            </form>
+            <form action="/logout" method="post">
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  mr-5"><i class="fa-brands fa-github"></i></button>
+                <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300 mr-5">Log out</button>
+            </form>
+            <% } %>
+        </div>
+        <div class="w-1/2 h-1/3 bg-gray-700 rounded-2xl flex flex-col items-center">
+            <h1 class="text-2xl font-bold text-white mt-2" style="font-family: 'M PLUS Rounded 1c', sans-serif;">Rules</h1>
+            <ol class="text-lg text-white  text-center ml-5 mr-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;">
+                <li class="text-lg text-white" >1. Your repository must not contain any malicious content.</li>
+                <li class="text-lg text-white" >2. Your repository must not contain any NSFW content.</li>
+                <li class="text-lg text-white" >3. Your repository must not contain any illegal content.</li>
+                <li class="text-lg text-white" >4. Your repository must not contain any content that violates the GitHub ToS, Community Guidelines.</li>
+                <li class="text-lg text-white" >5. Your repository must have documentation (atleast README file) and website</li>
+                <li class="text-lg text-white" >6. Your repository must be maintained*</li>
+            </ol>
+            <p class="text-sm mt-5 text-white" style="font-family: 'M PLUS Rounded 1c', sans-serif;">*Unmaintained repo means repository, that haven't been updated for 3 years or more.</p>
+        </div>
+        <div class="footer w-1/2 h-12 rounded-3xl bg-gray-700 mb-5 flex justify-center items-center">
+            <p style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="text-gray-300">ReposHub ©️ 2023 | (We don't own any of the repositories on the list)</p>
+        </div>
+    </div>
+</body>
+</html>
