@@ -61,5 +61,7 @@ app.use("/logout", require("./routes/auth").logout);
 
 app.use("/rules", require("./routes/rules"));
 
+app.use("/repos", require("./routes/repos").list)
+
 app.listen(process.env.PORT)
 logSuccess(`Server is listening on port ${process.env.PORT}`)
