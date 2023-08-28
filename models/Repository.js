@@ -11,6 +11,7 @@ const Repository = new mongoose.Schema({
     githublink: {type: String, required: true},
     websitelink: {type: String, required: true},
     docslink: {type: String, required: true},
+    status: {type: String}
 })
 
 const model = mongoose.model('repos', Repository)
