@@ -31,7 +31,6 @@ router3.get("/", async function(req, res) {
 })
 
 router3.post("/", async function (req, res) {
-    console.log(`${req.user.profile.login}/${req.body.repo}`)
      const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${req.body.repo}`, {
         headers: {Authorization: `Bearer ${req.user.accessToken}`,
         "Content-Type": "application/json"}
