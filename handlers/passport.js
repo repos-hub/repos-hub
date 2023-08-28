@@ -18,7 +18,7 @@ passport.use(
           newuser.save()
         }
         await User.findOneAndUpdate({ username: profile.username}, { username: profile.username})
-        return cb(null, profile)
+        return cb(null, { profile, accessToken })
       } catch (err) {
         console.log(err)
       }
@@ -27,7 +27,9 @@ passport.use(
   )
   
  passport.serializeUser((user, cb) => {
-   return cb(null, user._json)
+  const profile = user.profile._json
+  const accessToken = user.accessToken
+   return cb(null, {profile, accessToken})
   })
   
   passport.deserializeUser(async (id, cb) => {
