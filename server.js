@@ -63,5 +63,7 @@ app.use("/rules", require("./routes/rules"));
 
 app.use("/repos", require("./routes/repos").list)
 
+app.use("/yourrepos", require("./routes/repos").yourrepos)
+
 app.listen(process.env.PORT)
 logSuccess(`Server is listening on port ${process.env.PORT}`)
