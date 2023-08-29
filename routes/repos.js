@@ -23,10 +23,8 @@ router3.get("/", async function(req, res) {
     })
    let repolist = [];
     repo.data.forEach((repo) => {
-        if (!repo.fork) {
         repolist.push(repo.name)
-        }
-    })
+        })    
     res.render(__dirname + "/../views/request.ejs", {isAuthenticated: req.isAuthenticated(), repos: repolist})
 })
 
