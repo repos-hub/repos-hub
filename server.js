@@ -67,5 +67,7 @@ app.use("/yourrepos", require("./routes/repos").yourrepos)
 
 app.use("/request", require("./routes/repos").addrepo)
 
+app.use("/delrepo", require("./routes/repos").delrepo)
+
 app.listen(process.env.PORT)
 logSuccess(`Server is listening on port ${process.env.PORT}`)

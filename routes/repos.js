@@ -5,6 +5,7 @@ const router2 = express.Router();
 const { checkAuth } = require("../handlers/authChecks")
 const router3 = express.Router();
 const axios = require("axios"); 
+const router4 = express.Router();
 
 router.get("/", async function(req, res) {
     const repos = await Repository.find({ status: "accepted"}).sort({stars: "descending"})
@@ -16,7 +17,7 @@ router2.get("/", checkAuth, async function(req, res) {
     res.render(__dirname + "/../views/yourrepos.ejs", {repos: repos, isAuthenticated: req.isAuthenticated()})
 })
 
-router3.get("/", async function(req, res) {
+router3.get("/", checkAuth, async function(req, res) {
     const repo = await axios.get("https://api.github.com/user/repos", {
         headers: {Authorization: `Bearer ${req.user.accessToken}`,
         "Content-Type": "application/json"}
@@ -28,7 +29,11 @@ router3.get("/", async function(req, res) {
     res.render(__dirname + "/../views/request.ejs", {isAuthenticated: req.isAuthenticated(), repos: repolist})
 })
 
-router3.post("/", async function (req, res) {
+router3.post("/", checkAuth, async function (req, res) {
+    const findRepo = await Repository.findOne({name: req.body.repo})
+    if (findRepo) {
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is already in the list."})
+    } else {
      const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${req.body.repo}`, {
         headers: {Authorization: `Bearer ${req.user.accessToken}`,
         "Content-Type": "application/json"}
@@ -48,8 +53,20 @@ router3.post("/", async function (req, res) {
     })
     newrepo.save()
     res.redirect("/yourrepos")
+}
+})
+
+router4.get("/:repo", async function(req, res) {
+    const findRepo = await Repository.findOne({name: req.params.repo})
+    if (findRepo) {
+        const deleteRepo = await Repository.findOneAndRemove({name: req.params.repo})
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: `Repository ${req.params.repo} has been deleted.`})
+    } else {
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list."})
+    }
 })
 
 module.exports.list = router;
 module.exports.yourrepos = router2;
 module.exports.addrepo = router3;
+module.exports.delrepo = router4;
