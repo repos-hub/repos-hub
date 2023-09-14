@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://127.0.0.1:5000/login/callback"
+      callbackURL: `https://${process.env.DOMAIN}/login/callback`
     }, async (accessToken, refreshToken, profile, cb) => {
       try {
         const user = await User.findOne({username: profile.username})
