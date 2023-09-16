@@ -10,7 +10,6 @@ passport.use(
       callbackURL: `${process.env.URL}/login/callback`
     }, async (accessToken, refreshToken, profile, cb) => {
       try {
-        console.log(profile)
         const user = await User.findOne({username: profile.username})
         if (!user) {
           const newuser = new User({
