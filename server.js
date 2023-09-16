@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const session = require('cookie-session');
 const { checkAuth, checkNotAuth} = require("./handlers/authChecks");
 const RateLimit = require("express-rate-limit");
+const User = require("./models/User")
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -51,8 +52,9 @@ app.use(passport.session())
 
 app.set('view engine', 'ejs');
 
-app.get("/", function (req, res) {
-    res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user});
+app.get("/", async function (req, res) {
+  const userdb = await User.findOne({username: req.user.profile.login})
+    res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, userdb: userdb });
 })
 
 app.use("/login", require("./routes/auth").login);
@@ -68,6 +70,9 @@ app.use("/yourrepos", require("./routes/repos").yourrepos)
 app.use("/request", require("./routes/repos").addrepo)
 
 app.use("/delrepo", require("./routes/repos").delrepo)
+
+
+app.use("/admin", require("./routes/admin").admin)
 
 app.listen(process.env.PORT)
 logSuccess(`Server is listening on port ${process.env.PORT}`)
