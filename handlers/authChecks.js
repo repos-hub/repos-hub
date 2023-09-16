@@ -1,3 +1,5 @@
+const User = require("../models/User")
+
 function checkAuth(req, res, next) {
   if (req.isAuthenticated()) {
     return next()
@@ -15,5 +17,15 @@ function checkNotAuth(req, res, next) {
   next()
 }
 
+async function checkAdmin(req, res, next) {
+  const checkAdmin = await User.findOne({username: req.user.profile.login})
+  if (checkAdmin.isAdmin) {
+    next()
+  } else {
+    res.redirect("/")
+  }
+}
+
   module.exports.checkAuth = checkAuth
   module.exports.checkNotAuth = checkNotAuth
+  module.exports.checkAdmin = checkAdmin
