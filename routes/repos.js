@@ -9,7 +9,7 @@ const router4 = express.Router();
 const User = require("../models/User")
 
 router.get("/", async function(req, res) {
-    const repos = await Repository.find({ status: "approved"}).sort({stars: "descending"})
+    const repos = await Repository.find({ status: "2"}).sort({stars: "descending"})
     res.render(__dirname + "/../views/reposlist.ejs", {repos: repos, isAuthenticated: req.isAuthenticated()})
 })
 
