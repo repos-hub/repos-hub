@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReposHub | Admin panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<style>
+    .reposlist2, .login2, .rules2 {
+            display: none ;
+        }
+    @media screen and (max-width: 1825px) {
+        /* .navbar {
+            width: 50%;
+        } */
+    }
+    @media screen and (max-width: 768px) {
+        /* .navbar {
+            width: 100%;
+        } */
+        /* .footer {
+            width: 100%;
+        } */
+        .reposlist, .login, .rules {
+            display: none;
+        }
+        .reposlist2, .login2, .rules2 {
+            display: block;
+        }
+    }
+</style>
+<body class="bg-gray-800">
+    <div class="flex justify-between w-screen h-screen flex-col items-center">
+        <div class="navbar rounded-3xl bg-gray-700 my-5 p-6 gap-8 flex flex-row items-center">
+            <a class="text-2xl font-bold text-white" href="/" style="font-family: 'M PLUS Rounded 1c', sans-serif;">ReposHub</a>
+            <div class="flex gap-2">
+                <form action="/repos">
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-list"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="reposlist w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  ">Repos List</button>
+                </form>
+
+                <form action="/rules">
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="rules2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-book"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="rules w-20 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Rules</button>
+                </form>
+                
+                <% if (!isAuthenticated) { %>
+                <form action="/login">
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login w-48 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300"><i class="fa-brands fa-github"></i>&nbsp;Login with GitHub</button>
+                </form>
+                <% } else { %>
+                <form action="/request">
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Add repo</button>
+                </form>
+                <form action="/yourrepos">
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Your repos</button>
+                </form>
+                <form action="/logout" method="post">
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300"><i class="fa-brands fa-github"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Log out</button>
+                </form>
+                <% } %>
+            </div>
+        </div>
+        <div class="w-auto grid grid-cols-3 gap-3 overflow-x-auto mb-2 mt-2">
+       <% repos.forEach((repo) => { %>
+        <div class="repo-example w-auto h-auto mt-5 bg-gray-700 rounded-2xl flex flex-col pb-3">
+            <div class="flex flex-row mt-5 ml-5 justify-between mr-5">
+                <h1 class="text-lg text-white" style="font-family: 'M PLUS Rounded 1c', sans-serif;"><%= repo.owner %>/<b><%= repo.name %></b></h1>
+                <% if (repo.status == "2") { %>
+                <p class="text-xl text-gray-400">&nbsp;<i class="fa-solid fa-circle-dot" style="color: green;"></i>&nbsp;Approved&nbsp;<i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;<%= repo.stars %>&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;<%= repo.forks %>&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;<%= repo.watchers %>&nbsp;</p>
+                <% } else if (repo.status == "0") { %>
+                <p class="text-xl text-gray-400">&nbsp;<i class="fa-solid fa-circle-dot" style="color: yellow;"></i>&nbsp;In review&nbsp;<i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;<%= repo.stars %>&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;<%= repo.forks %>&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;<%= repo.watchers %>&nbsp;</p>
+                <% } else if (repo.status == "1") { %>
+                <p class="text-xl text-gray-400">&nbsp;<i class="fa-solid fa-circle-dot" style="color: red;"></i>&nbsp;Rejected&nbsp;<i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;<%= repo.stars %>&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;<%= repo.forks %>&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;<%= repo.watchers %>&nbsp;</p>
+                <% } else { %>
+                <p class="text-xl text-gray-400">&nbsp;<i class="fa-solid fa-circle-dot" style="color: red;"></i>&nbsp;Not in DB&nbsp;<i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;<%= repo.stars %>&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;<%= repo.forks %>&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;<%= repo.watchers %>&nbsp;</p>
+                <% } %>
+            </div>
+            <div class="flex mt-5 ml-5 justify-between w-3/4">
+                <p class="text-lg text-gray-400" style="font-family: 'M PLUS Rounded 1c', sans-serif;"><%= repo.description %></p>
+            </div>
+            <div class="flex mt-5 ml-5 text-gray-400 text-xl flex-row justify-between mr-5">
+                <a class="hover:text-gray-300 duration-300" href=<%= repo.githublink %>><i class="fa-brands fa-github"></i>&nbsp;GitHub</a>&nbsp;&nbsp;
+                <a class="hover:text-gray-300 duration-300" href=<%= repo.docslink %>><i class="fa-solid fa-book"></i>&nbsp;Docs</a>&nbsp;&nbsp;
+                <a class="hover:text-gray-300 duration-300" href=<%= repo.websitelink %>><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Website</a>
+            </div>
+            <div class="flex mt-2 ml-5 text-gray-400 text-xl flex-row justify-between mr-5">
+                <a class="hover:text-green-600 duration-300" href=<%= "/admin/approve/" + repo.owner + "/" + repo.name %>><i class="fa-solid fa-circle-check"></i>&nbsp;Approve repo</a>&nbsp;
+                <a class="hover:text-red-600 duration-300" href=<%= "/admin/reject/" + repo.owner + "/" + repo.name %>><i class="fa-solid fa-circle-xmark"></i>&nbsp;Reject repo</a>&nbsp;
+                <a class="hover:text-red-600 duration-300" href=<%= "/delrepo/" + repo.name + "/" + repo.owner %>><i class="fa-solid fa-trash"></i>&nbsp;Delete repo</a>&nbsp;
+            </div>
+        </div>
+        <% }) %>
+        </div> 
+        <div class="footer h-12 rounded-2xl bg-gray-700 mb-5 p-4 flex justify-center items-center text-center">
+            <p style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="text-gray-300">ReposHub ©️ 2023 | (We don't own any of the repositories on the list)</p>
+        </div>
+    </div>
+</body>
+</html>
