@@ -6,9 +6,10 @@ const { checkAuth } = require("../handlers/authChecks")
 const router3 = express.Router();
 const axios = require("axios"); 
 const router4 = express.Router();
+const User = require("../models/User")
 
 router.get("/", async function(req, res) {
-    const repos = await Repository.find({ status: "accepted"}).sort({stars: "descending"})
+    const repos = await Repository.find({ status: "approved"}).sort({stars: "descending"})
     res.render(__dirname + "/../views/reposlist.ejs", {repos: repos, isAuthenticated: req.isAuthenticated()})
 })
 
@@ -30,7 +31,7 @@ router3.get("/", checkAuth, async function(req, res) {
 })
 
 router3.post("/", checkAuth, async function (req, res) {
-    const findRepo = await Repository.findOne({name: req.body.repo})
+    const findRepo = await Repository.findOne({name: req.body.repo, owner: req.user.profile.login})
     if (findRepo) {
         res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is already in the list."})
     } else {
@@ -42,24 +43,28 @@ router3.post("/", checkAuth, async function (req, res) {
         name: req.body.repo,
         owner: req.user.profile.login,
         stars: repo.data.stargazers_count,
-        forks: repo.data.forks,
-        watchers: repo.data.watchers,
+        forks: repo.data.forks_count,
+        watchers: repo.data.subscribers_count,
         description: req.body.description,
         repoofmonth: false,
         githublink: repo.data.html_url,
         websitelink: req.body.websitelink,
         docslink: req.body.docslink,
-        status: "in-review"
+        status: "0"
     })
     newrepo.save()
     res.redirect("/yourrepos")
 }
 })
 
-router4.get("/:repo", async function(req, res) {
-    const findRepo = await Repository.findOne({name: req.params.repo})
+router4.get("/:repo/:owner?", checkAuth, async function(req, res) {
+    const findRepo = await Repository.findOne({name: req.params.repo, owner: req.user.profile.login})
+    const user = await User.findOne({username: req.user.profile.login})
     if (findRepo) {
-        const deleteRepo = await Repository.findOneAndRemove({name: req.params.repo})
+        const deleteRepo = await Repository.findOneAndRemove({name: req.params.repo, owner: req.user.profile.login})
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: `Repository ${req.params.repo} has been deleted.`})
+    } else if (user.isAdmin) {
+        const deleteRepo = await Repository.findOneAndRemove({name: req.params.repo, owner: req.params.owner})
         res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: `Repository ${req.params.repo} has been deleted.`})
     } else {
         res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list."})
