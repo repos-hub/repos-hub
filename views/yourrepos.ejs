@@ -71,8 +71,8 @@
         <div class="repo-example w-auto h-auto mt-5 bg-gray-700 rounded-2xl flex flex-col pb-3">
             <div class="flex flex-row mt-5 ml-5 justify-between mr-5">
                 <h1 class="text-lg text-white" style="font-family: 'M PLUS Rounded 1c', sans-serif;"><%= repo.owner %>/<b><%= repo.name %></b></h1>
-                <% if (repo.status == "accepted") { %>
-                <p class="text-xl text-gray-400">&nbsp;<i class="fa-solid fa-circle-dot" style="color: green;"></i>&nbsp;Accepted&nbsp;<i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;<%= repo.stars %>&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;<%= repo.forks %>&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;<%= repo.watchers %>&nbsp;</p>
+                <% if (repo.status == "approved") { %>
+                <p class="text-xl text-gray-400">&nbsp;<i class="fa-solid fa-circle-dot" style="color: green;"></i>&nbsp;Approved&nbsp;<i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;<%= repo.stars %>&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;<%= repo.forks %>&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;<%= repo.watchers %>&nbsp;</p>
                 <% } else if (repo.status == "in-review") { %>
                 <p class="text-xl text-gray-400">&nbsp;<i class="fa-solid fa-circle-dot" style="color: yellow;"></i>&nbsp;In review&nbsp;<i class="fa-regular fa-star" style="color: yellow;"></i>&nbsp;<%= repo.stars %>&nbsp;<i class="fa-solid fa-code-fork"></i>&nbsp;<%= repo.forks %>&nbsp;<i class="fa-regular fa-eye"></i>&nbsp;<%= repo.watchers %>&nbsp;</p>
                 <% } else if (repo.status == "declined") { %>
