@@ -7,14 +7,16 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: `https://${process.env.DOMAIN}/login/callback`
+      callbackURL: `${process.env.URL}/login/callback`
     }, async (accessToken, refreshToken, profile, cb) => {
       try {
+        console.log(profile)
         const user = await User.findOne({username: profile.username})
         if (!user) {
           const newuser = new User({
-            username: profile.username
-          })
+            username: profile.username,
+            isAdmin: false
+           })
           newuser.save()
         }
         await User.findOneAndUpdate({ username: profile.username}, { username: profile.username})
