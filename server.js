@@ -12,12 +12,11 @@ const User = require("./models/User")
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
   }
-
 // RATE LIMITER
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 15
+  max: 100,
 })
 
 app.use(limiter)
@@ -53,8 +52,12 @@ app.use(passport.session())
 app.set('view engine', 'ejs');
 
 app.get("/", async function (req, res) {
-  const userdb = await User.findOne({username: req.user.profile.login})
+  if (req.user) {
+    const userdb = await User.findOne({username: req.user.profile.login})
     res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, userdb: userdb });
+  } else {
+    res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, userdb: null });
+  }
 })
 
 app.use("/login", require("./routes/auth").login);
