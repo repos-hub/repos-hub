@@ -74,6 +74,7 @@ app.use("/request", require("./routes/repos").addrepo)
 
 app.use("/delrepo", require("./routes/repos").delrepo)
 
+app.use("/updaterepo", require("./routes/repos").updaterepo)
 
 app.use("/admin", require("./routes/admin").admin)
 

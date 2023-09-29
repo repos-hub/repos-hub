@@ -7,6 +7,7 @@ const router3 = express.Router();
 const axios = require("axios"); 
 const router4 = express.Router();
 const User = require("../models/User")
+const router5 = express.Router();
 
 router.get("/", async function(req, res) {
     const repos = await Repository.find({ status: "2"}).sort({stars: "descending"})
@@ -71,7 +72,22 @@ router4.get("/:repo/:owner?", checkAuth, async function(req, res) {
     }
 })
 
+router5.get("/:repo", checkAuth, async function(req, res) {
+    const findRepo = await Repository.findOne({name: req.params.repo, owner: req.user.profile.login})
+    if (!findRepo) {
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list."})
+    } else {
+        const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${req.params.repo}`, {
+        headers: {Authorization: `Bearer ${req.user.accessToken}`,
+        "Content-Type": "application/json"}
+    })
+    const updateRepo = await Repository.findOneAndUpdate({name: req.params.repo, owner: req.user.profile.login}, {stars: repo.data.stargazers_count, forks: repo.data.forks_count, watchers: repo.data.subscribers_count})
+    res.redirect("/yourrepos")
+    }
+})
+
 module.exports.list = router;
 module.exports.yourrepos = router2;
 module.exports.addrepo = router3;
 module.exports.delrepo = router4;
+module.exports.updaterepo = router5;

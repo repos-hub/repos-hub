@@ -88,6 +88,9 @@
                 <a class="hover:text-gray-300 duration-300" href=<%= repo.githublink %>><i class="fa-brands fa-github"></i>&nbsp;GitHub</a>
                 <a class="hover:text-gray-300 duration-300" href=<%= repo.docslink %>><i class="fa-solid fa-book"></i>&nbsp;Docs</a>
                 <a class="hover:text-gray-300 duration-300" href=<%= repo.websitelink %>><i class="fa-solid fa-right-to-bracket"></i>&nbsp;Website</a>
+            </div>
+            <div class="flex mt-2 ml-5 text-gray-400 text-xl flex-row justify-between mr-5">
+                <a class="hover:text-green-600 duration-300" href=<%= "/updaterepo/" + repo.name %>><i class="fa-solid fa-wrench"></i>&nbsp;Update repo</a>
                 <a class="hover:text-red-600 duration-300" href=<%= "/delrepo/" + repo.name %>><i class="fa-solid fa-trash"></i>&nbsp;Delete repo</a>
             </div>
         </div>
