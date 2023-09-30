@@ -57,6 +57,7 @@
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Your repos</button>
             </form>
             <form action="/logout" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  mr-5"><i class="fa-brands fa-github"></i></button>
                 <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300 mr-5">Log out</button>
             </form>

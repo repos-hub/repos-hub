@@ -8,6 +8,8 @@ const session = require('cookie-session');
 const { checkAuth, checkNotAuth} = require("./handlers/authChecks");
 const RateLimit = require("express-rate-limit");
 const User = require("./models/User")
+const csrf = require('lusca').csrf;
+
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config()
@@ -48,15 +50,16 @@ app.use(express.urlencoded({ extended: false}))
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.use(csrf());
 
 app.set('view engine', 'ejs');
 
 app.get("/", async function (req, res) {
   if (req.user) {
     const userdb = await User.findOne({username: req.user.profile.login})
-    res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, userdb: userdb });
+    res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, userdb: userdb, csrfToken: req.csrfToken() });
   } else {
-    res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, userdb: null });
+    res.render(__dirname + "/views/index.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, userdb: null, csrfToken: req.csrfToken() });
   }
 })
 

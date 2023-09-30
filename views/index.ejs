@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <style>
-    .reposlist2, .login2, .rules2 {
+    .reposlist2, .login2, .rules2, .addrepo2, .yourrepo2, .logout2 {
             display: none ;
         }
 
@@ -32,12 +32,20 @@
     }
 
     @media screen and (max-width: 768px) {
-        /* .navbar {
+         .navbar {
             width: 100%;
-        } */
+        }
+        .navbar > a {
+            font-size: 13px;
+        }
         .gradient-box {
             width: 80%;
             /* height: 35%; */
+        }
+
+        .welcome {
+            width: auto;
+            height: 20% ;
         }
         /* .repo-example {
             width: 80%;
@@ -46,10 +54,10 @@
         /* .footer {
             width: 100%;
         } */
-        .reposlist, .login, .rules {
+        .reposlist, .login, .rules, .addrepo, .yourrepo, .logout {
             display: none;
         }
-        .reposlist2, .login2, .rules2 {
+        .reposlist2, .login2, .rules2, .addrepo2, .yourrepo2, .logout2 {
             display: block;
         }
     }
@@ -75,23 +83,24 @@
                 </form>
                 <% } else { %>
                 <form action="/request">
-                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-plus"></i></button>
                     <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Add repo</button>
                 </form>
                 <form action="/yourrepos">
-                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
-                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Your repos</button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="yourrepo2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-rectangle-list"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="yourrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Your repos</button>
                 </form>
                 <form action="/logout" method="post">
-                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="login2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-brands fa-github"></i></button>
-                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="addrepo w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Log out</button>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="logout2 w-12 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300  "><i class="fa-solid fa-right-from-bracket"></i></button>
+                    <button type="submit" style="font-family: 'M PLUS Rounded 1c', sans-serif;" class="logout w-24 h-12 bg-gray-600 rounded-2xl text-white hover:bg-gray-500 ease-in-out duration-300">Log out</button>
                 </form>
                 <% } %>
             </div>
 
         </div>
     <% if (isAuthenticated) { %>
-    <div class="w-1/5 h-36 bg-gray-700 rounded-2xl flex items-center flex-col justify-center">
+    <div class="welcome w-1/5 h-36 bg-gray-700 rounded-2xl flex items-center flex-col justify-center">
         <div class="flex flex-row items-center justify-center">
         <img src=<%= user.profile.avatar_url %> class="w-12 h-12 rounded-full ml-5">
         <h1 class="text-lg font-bold text-white ml-5" style="font-family: 'M PLUS Rounded 1c', sans-serif;" >Welcome, <%= user.profile.login %></h1>

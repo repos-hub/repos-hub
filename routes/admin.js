@@ -6,7 +6,7 @@ const Repo = require("../models/Repository")
 
 router.get("/", checkAuth, checkAdmin, async function (req, res) {
     const repos = await Repo.find().sort({status: "ascending"})
-    res.render(__dirname + "/../views/admin.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, repos: repos});
+    res.render(__dirname + "/../views/admin.ejs", {isAuthenticated: req.isAuthenticated(), user: req.user, repos: repos, csrfToken: req.csrfToken()});
 })
 
 

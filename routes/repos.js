@@ -12,12 +12,12 @@ const sanitize = require("sanitize-filename")
 
 router.get("/", async function(req, res) {
     const repos = await Repository.find({ status: "2"}).sort({stars: "descending"})
-    res.render(__dirname + "/../views/reposlist.ejs", {repos: repos, isAuthenticated: req.isAuthenticated()})
+    res.render(__dirname + "/../views/reposlist.ejs", {repos: repos, isAuthenticated: req.isAuthenticated(), csrfToken: req.csrfToken()})
 })
 
 router2.get("/", checkAuth, async function(req, res) {
     const repos = await Repository.find({ owner: req.user.profile.login}).sort({stars: "descending"})
-    res.render(__dirname + "/../views/yourrepos.ejs", {repos: repos, isAuthenticated: req.isAuthenticated()})
+    res.render(__dirname + "/../views/yourrepos.ejs", {repos: repos, isAuthenticated: req.isAuthenticated(), csrfToken: req.csrfToken()})
 })
 
 router3.get("/", checkAuth, async function(req, res) {
@@ -29,13 +29,13 @@ router3.get("/", checkAuth, async function(req, res) {
     repo.data.forEach((repo) => {
         repolist.push(repo.name)
         })    
-    res.render(__dirname + "/../views/request.ejs", {isAuthenticated: req.isAuthenticated(), repos: repolist})
+    res.render(__dirname + "/../views/request.ejs", {isAuthenticated: req.isAuthenticated(), repos: repolist, csrfToken: req.csrfToken()})
 })
 
 router3.post("/", checkAuth, async function (req, res) {
     const findRepo = await Repository.findOne({name: req.body.repo, owner: req.user.profile.login})
     if (findRepo) {
-        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is already in the list."})
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is already in the list.", csrfToken: req.csrfToken()})
     } else {
      const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${sanitize(req.body.repo)}`, {
         headers: {Authorization: `Bearer ${req.user.accessToken}`,
@@ -64,21 +64,21 @@ router4.get("/:repo/:owner?", checkAuth, async function(req, res) {
     const user = await User.findOne({username: req.user.profile.login})
     if (findRepo) {
         const deleteRepo = await Repository.findOneAndRemove({name: req.params.repo, owner: req.user.profile.login})
-        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: `Repository ${req.params.repo} has been deleted.`})
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: `Repository ${req.params.repo} has been deleted.`, csrfToken: req.csrfToken()})
     } else if (user.isAdmin) {
         const deleteRepo = await Repository.findOneAndRemove({name: req.params.repo, owner: req.params.owner})
-        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: `Repository ${req.params.repo} has been deleted.`})
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: `Repository ${req.params.repo} has been deleted.`, csrfToken: req.csrfToken()})
     } else {
-        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list."})
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list.", csrfToken: req.csrfToken()})
     }
 })
 
 router5.get("/:repo", checkAuth, async function(req, res) {
     const findRepo = await Repository.findOne({name: req.params.repo, owner: req.user.profile.login})
     if (!findRepo) {
-        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list."})
+        res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list.", csrfToken: req.csrfToken()})
     } else {
-        const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${sanitize(req.body.repo)}`, {
+        const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${sanitize(req.params.repo)}`, {
         headers: {Authorization: `Bearer ${req.user.accessToken}`,
         "Content-Type": "application/json"}
     })
