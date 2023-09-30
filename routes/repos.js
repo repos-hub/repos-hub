@@ -8,6 +8,7 @@ const axios = require("axios");
 const router4 = express.Router();
 const User = require("../models/User")
 const router5 = express.Router();
+const sanitize = require("sanitize-filename")
 
 router.get("/", async function(req, res) {
     const repos = await Repository.find({ status: "2"}).sort({stars: "descending"})
@@ -36,7 +37,7 @@ router3.post("/", checkAuth, async function (req, res) {
     if (findRepo) {
         res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is already in the list."})
     } else {
-     const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${req.body.repo}`, {
+     const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${sanitize(req.body.repo)}`, {
         headers: {Authorization: `Bearer ${req.user.accessToken}`,
         "Content-Type": "application/json"}
     }) 
@@ -77,7 +78,7 @@ router5.get("/:repo", checkAuth, async function(req, res) {
     if (!findRepo) {
         res.render(__dirname + "/../views/message.ejs", {isAuthenticated: req.isAuthenticated(), message: "This repository is not in the list."})
     } else {
-        const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${req.params.repo}`, {
+        const repo = await axios.get(`https://api.github.com/repos/${req.user.profile.login}/${sanitize(req.body.repo)}`, {
         headers: {Authorization: `Bearer ${req.user.accessToken}`,
         "Content-Type": "application/json"}
     })
