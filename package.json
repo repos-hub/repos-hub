@@ -25,7 +25,7 @@
     "express": "^4.19.2",
     "express-rate-limit": "^7.3.1",
     "lusca": "^1.7.0",
-    "mongoose": "^8.4.1",
+    "mongoose": "^8.5.3",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "sanitize-filename": "^1.6.3"
