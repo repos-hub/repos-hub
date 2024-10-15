@@ -23,7 +23,7 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
-    "express-rate-limit": "^7.3.1",
+    "express-rate-limit": "^7.4.1",
     "lusca": "^1.7.0",
     "mongoose": "^8.7.0",
     "passport": "^0.7.0",
